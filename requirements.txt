@@ -6,3 +6,8 @@ python-dotenv
 psycopg2-binary
 mysqlclient
 bs4
+pandas
+numpy
+matplotlib
+re
+fake_useragent
