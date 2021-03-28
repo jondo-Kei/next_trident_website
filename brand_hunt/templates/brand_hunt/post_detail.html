@@ -1,0 +1,11 @@
+{% extends "brand_hunt/base.html" %}
+{% load l10n %}
+{% block main %}
+<h2>{{ object.title }}</h2>
+<p><time>{{ object.updated|localize }}</time></p>
+<div>
+    {{ object.body }}
+</div>
+<p><a href="{% url 'update' object.pk %}">編集</a></p>
+<p><a href="{% url 'delete' object.pk %}">削除</a></p>
+{% endblock %}

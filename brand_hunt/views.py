@@ -1,15 +1,100 @@
-from django.views.generic import TemplateView
+'''from django.views.generic import View, TemplateView, ListView, DetailView
+from django.http import HttpResponse
+from .models import Post
+djangoのテンプレート
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from . import forms'''
+import json
+from django.views.generic import View
+from django.shortcuts import render
+from django.http import HttpResponse, FileResponse, JsonResponse
+from .application import user_research, item_research
 
-class IndexView(TemplateView):
+#テンプレート呼び出し練習
+'''class IndexView(TemplateView):
     template_name = "index.html"
     
     #HTMLに返却値を渡す
     def get_context_data(self):
         ctxt = super().get_context_data()
         ctxt["username"] = "Kei"
-        return ctxt
+        return ctxt'''
+
+#HTML以外の表示練習
+body = """
+<h1>Hello</h1>
+<ol>
+    <li>りんご</li>
+    <li>ばなな</li>
+    <li>いちご</li>
+</ol>
+"""
+
+class IndexView(View):
+    def get(self, request):
+        return HttpResponse(body)
+
+import csv
+
+header = ['ID', '名前', '年齢']
+
+people = [
+    ('1', 'Hoge', 10),
+    ('2', 'Fuga', 18),
+    ('3', 'Foo', 23),
+]
+
+class CSVView(View):
+    def get(self, request):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="mycsv.csv"'
+        
+        writer = csv.writer(response)
+        writer.writerow(header)
+        writer.writerows(people)
+        return(response)
+
+import io
+from reportlab.pdfgen import canvas
+
+class PDFView(View):
+    def get(self, request):
+        buffer = io.BytesIO()
+        p = canvas.Canvas(buffer)
+        
+        #この部分を変えると内容が変わる
+        p.drawString(50, 800, "Hello PDF!")
+        
+        p.showPage()
+        p.save()
+        buffer.seek(0)
+        return FileResponse(buffer, as_attachment=True, filename="hello.pdf")
+
+class UserResearchView(View):
     
-class AboutView(TemplateView):
+    def get(self, request):
+        
+        return render(request,"user_research.html")
+
+    def post(self, request):
+        category_url = request.POST['search_url']
+        data = user_research.get_user_research_json(category_url)
+        datas = json.loads(data)
+        return render(request,"user_research.html",{"datas":datas})
+
+class ItemResearchView(View):
+    
+    def get(self, request):
+        return render(request,"item_research.html")
+
+    def post(self, request):
+        print("post：呼び出し成功")
+        salse_url = request.POST['search_url']
+        data = item_research.get_item_research_json(salse_url)
+        datas = json.loads(data)
+        return render(request,"item_research.html",{"datas":datas})
+
+'''class AboutView(TemplateView):
     template_name = "about.html"
     
     #HTMLに返却値を渡す
@@ -23,3 +108,49 @@ class AboutView(TemplateView):
             "Swift",
         ]
         return ctxt
+
+# ListViewは一覧を簡単に作るためのView
+#class Index(ListView):
+    # 一覧するモデルを指定 -> `object_list`で取得可能
+#    model = Post
+
+# DetailViewは詳細を簡単に作るためのView
+class Detail(DetailView):
+    # 詳細表示するモデルを指定 -> `object`で取得可能
+    model = Post
+
+# CreateViewは新規作成画面を簡単に作るためのView
+class Create(CreateView):
+    model = Post
+    
+    # 編集対象にするフィールド
+    fields = ["title", "body", "category", "tags"]
+
+class Update(UpdateView):
+    model = Post
+    fields = ["title", "body", "category", "tags"]
+
+class Delete(DeleteView):
+    model = Post
+    
+    # 削除したあとに移動する先（トップページ）
+    success_url = "/"
+
+class Index(FormView):
+    form_class = forms.TextForm
+    template_name = "brand_hunt/index.html"
+    
+    # フォームの入力にエラーが無かった場合に呼ばれます
+    def form_valid(self, form):
+        # form.cleaned_dataにフォームの入力内容が入っています
+        data = form.cleaned_data
+        text = data["text"]
+        search = data["search"]
+        replace = data["replace"]
+        
+        # ここで変換
+        new_text = text.replace(search, replace)
+        
+        # テンプレートに渡す
+        ctxt = self.get_context_data(new_text=new_text, form=form)
+        return self.render_to_response(ctxt)'''

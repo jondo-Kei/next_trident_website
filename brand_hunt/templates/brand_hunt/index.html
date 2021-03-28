@@ -1,0 +1,27 @@
+{% extends "brand_hunt/base.html" %}
+{% block main %}
+{% for error in form.non_field_errors %}
+<div class="alert alert-danger" role="alert">
+  {{ error }}
+</div>
+{% endfor %}
+<div class="row">
+    <div class="col-sm">
+        <h2>変換前</h2>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <p>
+                <label>{{ field.label }}</label>
+                {{ field }}
+            </p>
+            {% endfor %}
+            <input type="submit" value="変換" class="btn btn-info" />
+        </form>  
+    </div>
+    <div class="col-sm">
+        <h2>変換後</h2>
+        <p>{{ new_text }}</p>
+    </div>
+</div>
+{% endblock %}

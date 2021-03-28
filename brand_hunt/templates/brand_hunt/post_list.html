@@ -1,0 +1,10 @@
+{% extends "brand_hunt/base.html" %}
+{% block main %}
+<h2>記事一覧</h2>
+<ol>
+    {% for post in object_list %}
+    <li><a href="{% url 'detail' post.id %}">{{ post.title }}</a></li>
+    {% endfor %}
+</ol>
+<p><a href="{% url 'create' %}">新規投稿</a></p>
+{% endblock %}

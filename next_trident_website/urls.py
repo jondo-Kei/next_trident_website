@@ -15,8 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from brand_hunt import views
+'''from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView'''
+
+# 実はページを表示するだけならこのように1行で書くことが出来ます。
+#index_view = TemplateView.as_view(template_name="registration/index.html")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("brand_hunt.urls"))
+    path('', views.IndexView.as_view()),
+    path('csv/', views.CSVView.as_view()),
+    path('pdf/', views.PDFView.as_view()),
+    path('brand_hunt/user_research/', views.UserResearchView.as_view()),
+    path('brand_hunt/item_research/', views.ItemResearchView.as_view()),
+    #path("", login_required(index_view), name="index"),
+    #path('', include("django.contrib.auth.urls")),
+    #path('', include("brand_hunt.urls")),
 ]

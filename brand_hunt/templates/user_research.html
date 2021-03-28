@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load lookup %}
+
+{% block main %}
+<form action="/brand_hunt/user_research/" method="post">
+    {% csrf_token %}
+    <div>
+      <label for="search_url">検索URL</label>
+      <input type="text" id="search_url" name="search_url">
+    </div>
+    <input type="submit" value="検索">
+</form>
+{% if datas %}
+{% with buyer_id_list=datas.buyer_id buyer_name_list=datas.buyer_name buyer_url_list=datas.buyer_url buyer_disp_num_list=datas.buyer_disp_num buyer_item_num_list=datas.buyer_item_num buyer_order_num_list=datas.buyer_order_num diff_list=datas.diff %}
+<table border="1" width="500" cellspacing="0" cellpadding="5" bordercolor="#333333">
+    <tr>
+        <th bgcolor="#EE0000"><font color="#FFFFFF">バイヤーID</font></th>
+        <th bgcolor="#EE0000"><font color="#FFFFFF">バイヤー名</font></th>
+        <th bgcolor="#EE0000"><font color="#FFFFFF">バイヤーURL</font></th>
+        <th bgcolor="#EE0000"><font color="#FFFFFF">バイヤー表示数</font></th>
+        <th bgcolor="#EE0000"><font color="#FFFFFF">出品数</font></th>
+        <th bgcolor="#EE0000"><font color="#FFFFFF">注文数</font></th>
+        <th bgcolor="#EE0000"><font color="#FFFFFF">差分</font></th>
+    </tr>
+    {% for k in buyer_id_list %}
+    <tr>
+        <td>{{buyer_id_list|lookup:k}}</td>
+        <td>{{buyer_name_list|lookup:k}}</td>
+        <td>{{buyer_url_list|lookup:k}}</td>
+        <td>{{buyer_disp_num_list|lookup:k}}</td>
+        <td>{{buyer_item_num_list|lookup:k}}</td>
+        <td>{{buyer_order_num_list|lookup:k}}</td>
+        <td>{{diff_list|lookup:k}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endwith %}
+{% endif %}
+{% endblock %}

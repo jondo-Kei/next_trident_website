@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load lookup %}
+
+{% block main %}
+<form action="/brand_hunt/item_research/" method="post">
+    {% csrf_token %}
+    <div>
+      <label for="search_url">検索URL</label>
+      <input type="text" id="search_url" name="search_url">
+    </div>
+    <input type="submit" value="検索">
+</form>
+{% if datas %}
+<table border="1" width="500" cellspacing="0" cellpadding="5" bordercolor="#333333">
+    <tr>
+        {% for data in datas %}
+            <th bgcolor="#EE0000"><font color="#FFFFFF">{{data}}</font></th>
+        {% endfor %}
+    </tr>
+</table>
+{% endif %}
+{% endblock %}

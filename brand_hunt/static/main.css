@@ -1,3 +1,9 @@
 .navbar{
     background: pink;
 }
+ul{
+    list-style:none
+}
+li{
+    float:left;
+}
