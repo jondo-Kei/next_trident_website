@@ -9,6 +9,7 @@ from django.views.generic import View
 from django.shortcuts import render
 from django.http import HttpResponse, FileResponse, JsonResponse
 from .application import user_research, item_research
+from reportlab.pdfgen import canvas
 
 #テンプレート呼び出し練習
 '''class IndexView(TemplateView):
@@ -55,7 +56,6 @@ class CSVView(View):
         return(response)
 
 import io
-from reportlab.pdfgen import canvas
 
 class PDFView(View):
     def get(self, request):

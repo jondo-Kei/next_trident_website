@@ -11,3 +11,4 @@ numpy
 matplotlib
 fake_useragent
 requests
+reportlab
