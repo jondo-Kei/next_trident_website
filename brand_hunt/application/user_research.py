@@ -65,7 +65,7 @@ def detail(detail_sp, buyer_id):
 
 def get_user_research_json(category_url):
     #UserAgentの作成
-    ua = UserAgent()
+    ua = UserAgent(use_cache_server=False)
     useragent = ua.random
     
     #バイヤー一覧

@@ -11,8 +11,8 @@
     </div>
     <input type="submit" value="検索">
 </form>
-{% if datas %}
-{% with buyer_id_list=datas.buyer_id buyer_name_list=datas.buyer_name buyer_url_list=datas.buyer_url buyer_disp_num_list=datas.buyer_disp_num buyer_item_num_list=datas.buyer_item_num buyer_order_num_list=datas.buyer_order_num diff_list=datas.diff %}
+{% if user_json_datas %}
+{% with buyer_id_list=user_json_datas.buyer_id buyer_name_list=user_json_datas.buyer_name buyer_url_list=user_json_datas.buyer_url buyer_disp_num_list=user_json_datas.buyer_disp_num buyer_item_num_list=user_json_datas.buyer_item_num buyer_order_num_list=user_json_datas.buyer_order_num diff_list=user_json_datas.diff %}
 <table border="1" width="500" cellspacing="0" cellpadding="5" bordercolor="#333333">
     <tr>
         <th bgcolor="#EE0000"><font color="#FFFFFF">バイヤーID</font></th>

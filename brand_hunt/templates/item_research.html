@@ -11,10 +11,10 @@
     </div>
     <input type="submit" value="検索">
 </form>
-{% if datas %}
+{% if item_json_datas %}
 <table border="1" width="500" cellspacing="0" cellpadding="5" bordercolor="#333333">
     <tr>
-        {% for data in datas %}
+        {% for data in item_json_datas %}
             <th bgcolor="#EE0000"><font color="#FFFFFF">{{data}}</font></th>
         {% endfor %}
     </tr>

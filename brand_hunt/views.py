@@ -78,9 +78,9 @@ class UserResearchView(View):
 
     def post(self, request):
         category_url = request.POST['search_url']
-        data = user_research.get_user_research_json(category_url)
-        datas = json.loads(data)
-        return render(request,"user_research.html",{"datas":datas})
+        user_json_data = user_research.get_user_research_json(category_url)
+        user_json_datas = json.loads(user_json_data)
+        return render(request,"user_research.html",{"user_json_datas":user_json_datas})
 
 class ItemResearchView(View):
     
@@ -88,11 +88,11 @@ class ItemResearchView(View):
         return render(request,"item_research.html")
 
     def post(self, request):
-        print("post：呼び出し成功")
         salse_url = request.POST['search_url']
-        data = item_research.get_item_research_json(salse_url)
-        datas = json.loads(data)
-        return render(request,"item_research.html",{"datas":datas})
+        item_json_data = item_research.get_item_research_json(salse_url)
+        item_json_datas = json.loads(item_json_data)
+        print(item_json_datas)
+        return render(request,"item_research.html",{"item_json_datas":item_json_datas})
 
 '''class AboutView(TemplateView):
     template_name = "about.html"
