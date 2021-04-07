@@ -5,6 +5,8 @@ djangoのテンプレート
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from . import forms'''
 import json
+import subprocess
+import time
 from django.views.generic import View
 from django.shortcuts import render
 from django.http import HttpResponse, FileResponse, JsonResponse
@@ -73,14 +75,20 @@ class PDFView(View):
 class UserResearchView(View):
     
     def get(self, request):
-        
         return render(request,"user_research.html")
 
     def post(self, request):
         category_url = request.POST['search_url']
-        user_json_data = user_research.get_user_research_json(category_url)
-        user_json_datas = json.loads(user_json_data)
-        return render(request,"user_research.html",{"user_json_datas":user_json_datas})
+        #command = ["python3", "./brand_hunt/application/user_research.py", category_url]
+        #user_json_data = user_research.get_user_research_json(category_url)
+        #user_json_datas = json.loads(user_json_data)
+        #proc = subprocess.Popen(command)
+        print("メインプロセス呼び出し")
+        print("メインプロセス待機")
+        time.sleep(30)
+        print("メインプロセス待機終了")
+        #proc.communicate()
+        return render(request,"user_research.html")
 
 class ItemResearchView(View):
     
