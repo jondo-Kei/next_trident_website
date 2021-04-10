@@ -9,7 +9,7 @@ import subprocess
 from django.views.generic import View
 from django.shortcuts import render
 from django.http import HttpResponse, FileResponse, JsonResponse
-from .application import item_research, user_research_20210404
+from .application import item_research
 from reportlab.pdfgen import canvas
 
 #テンプレート呼び出し練習
