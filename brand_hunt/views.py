@@ -6,11 +6,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from . import forms'''
 import json
 import subprocess
-import time
 from django.views.generic import View
 from django.shortcuts import render
 from django.http import HttpResponse, FileResponse, JsonResponse
-from .application import user_research, item_research
+from .application import item_research, user_research_20210404
 from reportlab.pdfgen import canvas
 
 #テンプレート呼び出し練習
@@ -78,17 +77,24 @@ class UserResearchView(View):
         return render(request,"user_research.html")
 
     def post(self, request):
+        print("ユーザー検索開始")
         category_url = request.POST['search_url']
-        #command = ["python3", "./brand_hunt/application/user_research.py", category_url]
-        #user_json_data = user_research.get_user_research_json(category_url)
+        command = ["python3", "./brand_hunt/application/user_research.py", category_url]
+        #user_json_data = user_research_20210404.get_user_research_json(category_url)
         #user_json_datas = json.loads(user_json_data)
-        #proc = subprocess.Popen(command)
-        print("メインプロセス呼び出し")
-        print("メインプロセス待機")
-        time.sleep(30)
-        print("メインプロセス待機終了")
-        #proc.communicate()
-        return render(request,"user_research.html")
+        proc = subprocess.Popen(command, stdout=subprocess.PIPE)
+        user_json_data = proc.stdout.read()
+        #デコード
+        dec_str_user_json_data = user_json_data.strip().decode('unicode-escape')
+        #リプレイス
+        rep_user_json_data = dec_str_user_json_data.replace('\"', '\'')
+        #ダンプ
+        dump_user_json_data = json.dumps(rep_user_json_data)
+        user_json_datas = json.loads(dump_user_json_data)
+        proc.communicate()
+        print(user_json_datas)
+        #return render(request,"user_research.html")
+        return render(request,"user_research.html",{"user_json_datas":user_json_datas})
 
 class ItemResearchView(View):
     
